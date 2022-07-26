@@ -14,9 +14,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  //final _dataService = DataService();
-  final TextEditingController bayController = TextEditingController();
-  //WeatherResponse? _response;
+  final _dataService = DataService();
+  final TextEditingController _bayController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +42,7 @@ class _MainPageState extends State<MainPage> {
               child: SizedBox(
                 width: 185,
                 child: TextField(
-                  controller: bayController,
+                  controller: _bayController,
                   decoration: InputDecoration(
                     hintText: 'На поиски порта!',
                     hintStyle: TextStyle(color: Colors.white54),
@@ -55,13 +54,6 @@ class _MainPageState extends State<MainPage> {
             ElevatedButton(
               onPressed: () {
                 sendData(context);
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => WeatherScreen(bayController.text),
-                //   ),
-                // );
-                // weatherInfo();
               },
               child: Text(
                 'Попутного ветра!',
@@ -80,22 +72,17 @@ class _MainPageState extends State<MainPage> {
   }
 
   void sendData(BuildContext context) async {
-    final String textToSend = bayController.text;
+    final response = await _dataService.getWeather(_bayController.text);
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => WeatherScreen(
-          bayText: textToSend,
+          cityName: response.cityName,
+          temperature: response.tempInfo.toString(),
+          likeTemp: response.feelsLikeTemp.toString(),
+          description: response.weatherInfo.description,
         ),
       ),
     );
   }
-
-  // void weatherInfo() async {
-  //   final response = await _dataService.getWeather(bayController.text);
-
-  //   setState(() {
-  //     _response = response;
-  //   });
-  // }
 }

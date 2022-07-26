@@ -5,24 +5,23 @@ import 'package:flutter/material.dart';
 import '../models/model.dart';
 import '../service/data_service.dart';
 
-class WeatherScreen extends StatefulWidget {
-  final String bayText;
-
-  const WeatherScreen({required this.bayText});
-
-  @override
-  State<WeatherScreen> createState() => _WeatherScreenState();
-}
-
-class _WeatherScreenState extends State<WeatherScreen> {
+class WeatherScreen extends StatelessWidget {
   final TextStyle _style = TextStyle(
     color: Colors.white,
     fontSize: 15,
   );
 
-  WeatherResponse? _response;
+  final String cityName;
+  final String temperature;
+  final String likeTemp;
+  final String description;
 
-  final _dataService = DataService();
+  WeatherScreen(
+      {super.key,
+      required this.cityName,
+      required this.temperature,
+      required this.likeTemp,
+      required this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -37,77 +36,72 @@ class _WeatherScreenState extends State<WeatherScreen> {
           style: TextStyle(color: Colors.black, fontSize: 18),
         ),
       ),
-      body: Column(
+      body: ListView(
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 52.0, horizontal: 40),
-            child: Container(
-              height: 180,
-              width: 320,
-              decoration: BoxDecoration(
-                color: Color(0xff56a387),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Порт: ${widget.bayText}',
-                          style: _style,
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Температура: ${_response?.tempInfo}',
-                          style: _style,
-                        ),
-                        // SizedBox(height: 10),
-                        // Text(
-                        //   'Ощущается как: ${_response!.feelsLikeTemp}',
-                        //   style: _style,
-                        // ),
-                        // SizedBox(height: 10),
-                        // Text(
-                        //   'Описание: ${_response!.weatherInfo.description}',
-                        //   style: _style,
-                        // ),
-                        // SizedBox(height: 10),
-                      ],
-                    ),
+          Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 52.0, horizontal: 40),
+                child: Container(
+                  height: 180,
+                  width: 320,
+                  decoration: BoxDecoration(
+                    color: Color(0xff56a387),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  Positioned(
-                    bottom: 8,
-                    right: 8,
-                    child: SizedBox(
-                      height: 110,
-                      width: 110,
-                      child: Image.asset('assets/FRBT_jIhVsI.png'),
-                    ),
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Порт: $cityName',
+                              style: _style,
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Температура: $temperature',
+                              style: _style,
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Ощущается как: $likeTemp',
+                              style: _style,
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Описание: $description',
+                              style: _style,
+                            ),
+                            SizedBox(height: 10),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: SizedBox(
+                          height: 70,
+                          width: 70,
+                          child: Image.asset('assets/FRBT_jIhVsI.png'),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+              SizedBox(
+                height: 100,
+              ),
+              Image.asset(
+                  'assets/красивые-картинки-art-YY-H-старинные-корабли-4788481.jpeg'),
+            ],
           ),
-          SizedBox(
-            height: 100,
-          ),
-          Image.asset(
-              'assets/красивые-картинки-art-YY-H-старинные-корабли-4788481.jpeg'),
         ],
       ),
     );
-  }
-
-  void weatherInfo() async {
-    final passText = widget.bayText;
-    final response = await _dataService.getWeather(passText);
-
-    setState(() {
-      _response = response;
-    });
   }
 }
