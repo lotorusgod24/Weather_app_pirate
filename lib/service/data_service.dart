@@ -16,7 +16,6 @@ class DataService {
         Uri.http('api.openweathermap.org', '/data/2.5/weather', queryParametrs);
 
     final response = await http.get(uri);
-    print(response.body);
     final json = jsonDecode(response.body);
 
     return WeatherResponse.fromJson(json);

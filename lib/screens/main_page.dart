@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last, unused_element, no_leading_underscores_for_local_identifiers, unused_local_variable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:weather_app_pirate/models/model.dart';
 import 'package:weather_app_pirate/screens/weather_screen.dart';
 
 import '../service/data_service.dart';
@@ -16,6 +15,11 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final _dataService = DataService();
   final TextEditingController _bayController = TextEditingController();
+
+  void dispose() {
+    super.dispose();
+    _bayController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

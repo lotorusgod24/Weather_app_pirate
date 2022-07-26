@@ -2,9 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-import '../models/model.dart';
-import '../service/data_service.dart';
-
 class WeatherScreen extends StatelessWidget {
   final TextStyle _style = TextStyle(
     color: Colors.white,
